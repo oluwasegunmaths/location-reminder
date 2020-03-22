@@ -14,20 +14,22 @@ abstract class BaseFragment : Fragment() {
      * Every fragment has to have an instance of a view model that extends from the BaseViewModel
      */
     abstract val _viewModel: BaseViewModel
-
+    private var snackBar: Snackbar? = null
     override fun onStart() {
         super.onStart()
         _viewModel.showErrorMessage.observe(this, Observer {
             Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
         })
         _viewModel.showToast.observe(this, Observer {
-            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, getString(it), Toast.LENGTH_LONG).show()
         })
         _viewModel.showSnackBar.observe(this, Observer {
-            Snackbar.make(this.view!!, it, Snackbar.LENGTH_LONG).show()
+            snackBar = Snackbar.make(this.view!!, it, Snackbar.LENGTH_LONG)
+            snackBar?.show()
         })
         _viewModel.showSnackBarInt.observe(this, Observer {
-            Snackbar.make(this.view!!, getString(it), Snackbar.LENGTH_LONG).show()
+            snackBar = Snackbar.make(this.view!!, getString(it), Snackbar.LENGTH_LONG)
+            snackBar?.show()
         })
 
         _viewModel.navigationCommand.observe(this, Observer { command ->
@@ -40,5 +42,12 @@ abstract class BaseFragment : Fragment() {
                 )
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        //dismisses any snackbar being shown when the fragment is no longer visible
+
+        snackBar?.dismiss()
     }
 }

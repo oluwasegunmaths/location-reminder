@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1049493017859",
+    "firebase_url": "https://udacity-location-finder-3a22f.firebaseio.com",
+    "project_id": "udacity-location-finder-3a22f",
+    "storage_bucket": "udacity-location-finder-3a22f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049493017859:android:4827ab73d70e7666340536",
+        "android_client_info": {
+          "package_name": "com.udacity.project4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049493017859-jut4lf2p1noge4ombs0rvhuq8ah37r4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.project4",
+            "certificate_hash": "285a73d883828c61189598734ab943004becd444"
+          }
+        },
+        {
+          "client_id": "1049493017859-47hu8a1p39kevgpqbpgvpocr71b4i5h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7ePVWw2UWXCi7NN089pGOV6GPcn7Ry-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049493017859-47hu8a1p39kevgpqbpgvpocr71b4i5h9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

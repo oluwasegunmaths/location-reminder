@@ -1,9 +1,12 @@
 package com.udacity.project4.locationreminders.reminderslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import com.firebase.ui.auth.AuthUI
 import com.udacity.project4.R
+import com.udacity.project4.authentication.AuthenticationViewModel
 import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentRemindersBinding
@@ -32,7 +35,6 @@ class ReminderListFragment : BaseFragment() {
         setTitle(getString(R.string.app_name))
 
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadReminders() }
-
         return binding.root
     }
 
@@ -71,11 +73,31 @@ class ReminderListFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-//                TODO: add the logout implementation
+                AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener {
+
+
+                    it.addOnSuccessListener {
+                        AuthenticationViewModel.hasJustLoggedOut = true
+                        _viewModel.navigationCommand.postValue(
+                            NavigationCommand.To(
+                                ReminderListFragmentDirections.actionReminderListFragmentToAuthenticationActivity()
+                            )
+                        )
+                        requireActivity().finish()
+
+                    }.addOnFailureListener {
+                        _viewModel.showErrorMessage.value = getString(R.string.error_signing_out)
+
+                    }
+                }
             }
         }
         return super.onOptionsItemSelected(item)
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
