@@ -48,4 +48,7 @@
     <string name="described_as">described as:</string>
     <string name="reminders_not_found">Reminders not found</string>
     <string name="error_signing_out">Error signing out</string>
+    <string name="login_using_google_or_email">Login using Google or email</string>
+    <string name="network_required_to_signin">Network required to sign into Location reminder</string>
+    <string name="sihn_in_unsuccessful">Sign in unsuccessful, retry by clicking the button</string>
 </resources>

@@ -38,9 +38,6 @@ class AuthenticationViewModel(
         }
     }
 
-    companion object {
 
-        var hasJustLoggedOut: Boolean = false
-    }
 
 }

@@ -25,7 +25,6 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.BuildConfig
 import com.udacity.project4.R
-import com.udacity.project4.authentication.AuthenticationActivity.Companion.TAG
 import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentSelectLocationBinding
@@ -39,6 +38,7 @@ private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
 private const val LOCATION_PERMISSION_INDEX = 0
 private const val BACKGROUND_LOCATION_PERMISSION_INDEX = 1
+private const val TAG = "SelectLocationFragment"
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private var selectedLatLng: LatLng? = null
@@ -74,12 +74,12 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        observeShowSnackBarIntWithAnActionLiveDataAndCallOnLocationSelectedIfUserConfirmsOnTheLocation()
+        observeSelectLocationLiveData()
 
         return binding.root
     }
 
-    private fun observeShowSnackBarIntWithAnActionLiveDataAndCallOnLocationSelectedIfUserConfirmsOnTheLocation() {
+    private fun observeSelectLocationLiveData() {
         _viewModel.showSnackBarIntWithAnAction.observe(
             viewLifecycleOwner,
             Observer {
@@ -94,7 +94,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onStart() {
         super.onStart()
-        checkPermissionsAndStartGeofencing()
+        checkPermissionsAndShowLocation()
     }
 
     private fun onLocationSelected() {
@@ -149,7 +149,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
         if (requestCode == REQUEST_TURN_DEVICE_LOCATION_ON) {
 
-            checkDeviceLocationSettingsAndStartGeofence(false)
+            checkDeviceLocationSettingsAndShowLocation(false)
         }
     }
 
@@ -186,15 +186,15 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         } else {
             Log.d("aaaaaaaaaaaaa", "2")
 
-            checkDeviceLocationSettingsAndStartGeofence()
+            checkDeviceLocationSettingsAndShowLocation()
             Log.d("aaaaaaaaaaaaa", "3")
 
         }
     }
 
-    private fun checkPermissionsAndStartGeofencing() {
+    private fun checkPermissionsAndShowLocation() {
         if (foregroundAndBackgroundLocationPermissionApproved()) {
-            checkDeviceLocationSettingsAndStartGeofence()
+            checkDeviceLocationSettingsAndShowLocation()
         } else {
             requestForegroundAndBackgroundLocationPermissions()
         }
@@ -204,7 +204,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
      *  Uses the Location Client to check the current state of location settings, and gives the user
      *  the opportunity to turn on location services within our app.
      */
-    private fun checkDeviceLocationSettingsAndStartGeofence(resolve: Boolean = true) {
+    private fun checkDeviceLocationSettingsAndShowLocation(resolve: Boolean = true) {
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
         }
@@ -234,7 +234,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     R.string.location_required_error, Snackbar.LENGTH_INDEFINITE
                 )
                 snackbar?.setAction(android.R.string.ok) {
-                    checkDeviceLocationSettingsAndStartGeofence()
+                    checkDeviceLocationSettingsAndShowLocation()
                 }
                 snackbar?.show()
             }

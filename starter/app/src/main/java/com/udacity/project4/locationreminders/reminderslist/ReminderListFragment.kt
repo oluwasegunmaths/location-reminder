@@ -1,12 +1,11 @@
 package com.udacity.project4.locationreminders.reminderslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.firebase.ui.auth.AuthUI
 import com.udacity.project4.R
-import com.udacity.project4.authentication.AuthenticationViewModel
+import com.udacity.project4.authentication.AuthenticationActivity.Companion.hasJustLoggedOut
 import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentRemindersBinding
@@ -77,7 +76,7 @@ class ReminderListFragment : BaseFragment() {
 
 
                     it.addOnSuccessListener {
-                        AuthenticationViewModel.hasJustLoggedOut = true
+                        hasJustLoggedOut = true
                         _viewModel.navigationCommand.postValue(
                             NavigationCommand.To(
                                 ReminderListFragmentDirections.actionReminderListFragmentToAuthenticationActivity()
